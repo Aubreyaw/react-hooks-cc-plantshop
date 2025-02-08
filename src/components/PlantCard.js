@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-
-function PlantCard({ plant }) { 
+function PlantCard({ plant, onDelete }) { 
   const [isSoldOut, setIsSoldOut] = useState(plant.soldOut || false);
+
   const toggleSoldOut = () => {
     setIsSoldOut(!isSoldOut)
   };
-
+ 
   return (
     <li className="card" data-testid="plant-item">
       <img src={plant.image} alt={plant.name} />  
@@ -15,23 +15,12 @@ function PlantCard({ plant }) {
         <button onClick={toggleSoldOut} className={isSoldOut ? "" : "primary"}>
           {isSoldOut ? "Out of Stock" : "In Stock"}
         </button>
+          
+        <button onClick={() => onDelete(plant.id)} className="delete-button">
+          Delete
+        </button>
     </li>
   );
 }
 
 export default PlantCard;
-
-/* 
-** Setting state locally Pros: Local state management makes the component self-contained.
-Cons: State won't persist across re-renders or page refreshes unless handled globally or saved to the backend.
-*/
-
-/*
- "plants": [
-    {
-      "id": 1,
-      "name": "Aloe",
-      "image": "./images/aloe.jpg",
-      "price": 15.99
-    },
-*/

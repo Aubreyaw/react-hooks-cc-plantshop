@@ -12,15 +12,16 @@ function PlantPage() {
     price: "",
   });
 
-  useEffect(() => { 
+  useEffect(() => {
     fetch("http://localhost:6001/plants")
-    .then(r => r.json())
-    .then(data => {
-      console.log(data);
-      setPlants(data);
-  })
-    .catch(error => console.error("Error fetching plants:", error));
-  }, [])
+      .then((r) => r.json())
+      .then((data) => {
+        setPlants(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching plants:", error);
+      });
+  }, []);
 
  
   const handleSearchChange = (event) => {  
@@ -36,7 +37,6 @@ function PlantPage() {
     }));
   };
 
-  
   const handleFormSubmit = (event) => {
     event.preventDefault();
     fetch("http://localhost:6001/plants", {
@@ -46,18 +46,32 @@ function PlantPage() {
       },
       body: JSON.stringify(newPlant),
     })
-    .then((r) => r.json())
-    .then((addedPlant) => {
-      
-      setPlants((prevPlants) => [...prevPlants, addedPlant]);
-     
-      setNewPlant({ name: "", image: "", price: "" });
-    })
-    .catch((error) => console.error("Error adding plant:", error));
+      .then((r) => r.json())
+      .then((addedPlant) => {
+        setPlants((prevPlants) => [...prevPlants, addedPlant]);
+        setNewPlant({ name: "", image: "", price: "" });
+      })
+      .catch((error) => {
+        console.error("Error adding plant:", error);
+      });
   };
+
+
   const filteredPlants = plants.filter((plant) =>
         plant.name.toLowerCase().includes(searchFilter.toLowerCase())
       );
+
+      const handleDelete = (id) => {
+        fetch(`http://localhost:6001/plants/${id}`, {
+          method: "DELETE",
+        })
+          .then(() => {
+            setPlants(plants.filter((plant) => plant.id !== id));
+          })
+          .catch((error) => {
+            console.error("Error deleting plant:", error);
+          });
+      };
 
   return (
     <main>
@@ -67,7 +81,7 @@ function PlantPage() {
         onFormSubmit={handleFormSubmit}
       />
       <Search searchFilter={searchFilter} onSearchChange={handleSearchChange} />
-      <PlantList plants={filteredPlants} />
+      <PlantList plants={filteredPlants} onDelete={handleDelete}/>
     </main>
   );
 }
