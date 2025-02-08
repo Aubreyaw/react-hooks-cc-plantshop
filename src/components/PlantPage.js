@@ -1,22 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewPlantForm from "./NewPlantForm";
 import PlantList from "./PlantList";
 import Search from "./Search";
 
-function PlantPage({ plants, setPlants }) {  // Add setPlants prop to update plants
-  const [searchFilter, setSearchFilter] = useState(""); // handle state for search filter
-  const [newPlant, setNewPlant] = useState({ // handle state for new plant form
+function PlantPage() {  
+  const [plants, setPlants] = useState([]); 
+  const [searchFilter, setSearchFilter] = useState(""); 
+  const [newPlant, setNewPlant] = useState({ 
     name: "",
     image: "",
     price: "",
   });
 
-  // Handle search input change
+  useEffect(() => { 
+    fetch("http://localhost:6001/plants")
+    .then(r => r.json())
+    .then(data => {
+      console.log(data);
+      setPlants(data);
+  })
+    .catch(error => console.error("Error fetching plants:", error));
+  }, [])
+
+ 
   const handleSearchChange = (event) => {  
-    setSearchFilter(event.target.value);
+    setSearchFilter(event.target.value.toLowerCase());
   };
 
-  // Handle form input changes
+  
   const handleFormChange = (event) => {
     const { name, value } = event.target;
     setNewPlant((prevState) => ({
@@ -25,10 +36,9 @@ function PlantPage({ plants, setPlants }) {  // Add setPlants prop to update pla
     }));
   };
 
-  // Handle form submission to add a new plant
+  
   const handleFormSubmit = (event) => {
     event.preventDefault();
-  // POST request to add new plants
     fetch("http://localhost:6001/plants", {
       method: "POST",
       headers: {
@@ -38,18 +48,17 @@ function PlantPage({ plants, setPlants }) {  // Add setPlants prop to update pla
     })
     .then((r) => r.json())
     .then((addedPlant) => {
-      // Update the plant list with the newly added plant
+      
       setPlants((prevPlants) => [...prevPlants, addedPlant]);
-      // Reset the form
+     
       setNewPlant({ name: "", image: "", price: "" });
     })
     .catch((error) => console.error("Error adding plant:", error));
   };
-  // non-case sensitive search filter
   const filteredPlants = plants.filter((plant) =>
-    plant.name.toLowerCase().includes(searchFilter.toLowerCase())
-  );
-  // passing down props
+        plant.name.toLowerCase().includes(searchFilter.toLowerCase())
+      );
+
   return (
     <main>
       <NewPlantForm 

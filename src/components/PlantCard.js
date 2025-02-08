@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 
 
-function PlantCard({ plant }) {  // passing down plant prop from PlantList note: using prop "plant" instead of "plants"
-  const [isSoldOut, setIsSoldOut] = useState(plant.soldOut || false); // setting state for in stock button **
-
+function PlantCard({ plant }) { 
+  const [isSoldOut, setIsSoldOut] = useState(plant.soldOut || false);
   const toggleSoldOut = () => {
     setIsSoldOut(!isSoldOut)
   };
-// adding plant data details to jsx to display in browser
+
   return (
     <li className="card" data-testid="plant-item">
       <img src={plant.image} alt={plant.name} />  

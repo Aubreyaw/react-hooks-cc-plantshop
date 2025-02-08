@@ -1,6 +1,6 @@
 import React from "react";
 
-function NewPlantForm({ newPlant, onFormChange, onFormSubmit }) { // props passed from PlantPage for new plant form submission
+function NewPlantForm({ newPlant = {}, onFormChange, onFormSubmit }) { 
   return (
     <div className="new-plant-form">
       <h2>New Plant</h2>

@@ -41,12 +41,6 @@
       "name": "Fiddle Leaf Fig",
       "image": "./images/fiddle-leaf-fig.jpg",
       "price": 55
-    },
-    {
-      "name": "Groot",
-      "image": "https://s.yimg.com/ny/api/res/1.2/4rYstOXurGiiASoPht9HIw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MA--/http://magazines.zenfs.com/resizer/original/rHgc3wp2z68Em7vq3iiHEyRCs3o",
-      "price": "1000000",
-      "id": 8
     }
   ]
 }
