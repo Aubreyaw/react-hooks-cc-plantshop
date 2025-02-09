@@ -54,10 +54,6 @@ function PlantPage() {
       });
   };
 
-  const filteredPlants = plants.filter((plant) =>
-        plant.name.toLowerCase().includes(searchFilter.toLowerCase())
-      );
-
       const handleDelete = (id) => {
         fetch(`http://localhost:6001/plants/${id}`, {
           method: "DELETE",
@@ -71,6 +67,10 @@ function PlantPage() {
       };
 
       
+      const filteredPlants = plants.filter((plant) =>
+        plant.name.toLowerCase().includes(searchFilter.toLowerCase())
+      );
+
       const handlePriceChange = (id, newPrice) => {
         fetch(`http://localhost:6001/plants/${id}`, {
           method: "PATCH",
@@ -92,36 +92,13 @@ function PlantPage() {
 
   return (
     <main>
-      <NewPlantForm 
-        newPlant={newPlant}
-        onFormChange={handleFormChange}
-        onFormSubmit={handleFormSubmit}
-      />
+      <NewPlantForm newPlant={newPlant} onFormChange={handleFormChange} onFormSubmit={handleFormSubmit} />
       <Search searchFilter={searchFilter} onSearchChange={handleSearchChange} />
-      <PlantList 
-      plants={filteredPlants} 
-      onDelete={handleDelete}
-      onPriceChange={handlePriceChange}
-      />
+      <PlantList plants={filteredPlants} onDelete={handleDelete} onPriceChange={handlePriceChange} />
     </main>
   );
 }
 
 export default PlantPage;
 
-      // const handlePriceChange = (id, newPrice) => {
-      //   fetch(`http://localhost:6001/plants/${id}`, {
-      //     method: "PATCH",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       price: newPrice,
-      //     }),
-      //   })
-      //     .then((response) => response.json()) 
-      //     .then((updatedPlant) => {
-      //       console.log("Updated Plant:", updatedPlant);
-      //     })
-      //     .catch((error) => console.error("Error updating plant:", error));
-      // };
+// PlantPage -> PlantList -> PlantCard

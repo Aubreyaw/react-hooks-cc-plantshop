@@ -19,4 +19,3 @@ function PlantList({ plants, onDelete, onPriceChange }) {
 export default PlantList;
 
 // PlantPage -> PlantList -> PlantCard
-// pass onPriceChange?

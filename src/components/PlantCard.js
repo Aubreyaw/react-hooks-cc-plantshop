@@ -53,3 +53,5 @@ function PlantCard({ plant, onDelete, onPriceChange }) {
 }
 
 export default PlantCard;
+
+// PlantPage -> PlantList -> PlantCard
