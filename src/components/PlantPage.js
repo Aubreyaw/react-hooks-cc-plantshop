@@ -22,12 +22,10 @@ function PlantPage() {
         console.error("Error fetching plants:", error);
       });
   }, []);
-
  
   const handleSearchChange = (event) => {  
     setSearchFilter(event.target.value.toLowerCase());
   };
-
   
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -56,7 +54,6 @@ function PlantPage() {
       });
   };
 
-
   const filteredPlants = plants.filter((plant) =>
         plant.name.toLowerCase().includes(searchFilter.toLowerCase())
       );
@@ -73,6 +70,26 @@ function PlantPage() {
           });
       };
 
+      
+      const handlePriceChange = (id, newPrice) => {
+        fetch(`http://localhost:6001/plants/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ price: newPrice }),
+        })
+          .then((response) => response.json()) 
+          .then((updatedPlant) => {
+            setPlants((prevPlants) =>
+              prevPlants.map((plant) =>
+                plant.id === id ? { ...plant, price: updatedPlant.price } : plant
+              )
+            );
+          })
+          .catch((error) => console.error("Error updating plant:", error));
+      };
+
   return (
     <main>
       <NewPlantForm 
@@ -81,9 +98,30 @@ function PlantPage() {
         onFormSubmit={handleFormSubmit}
       />
       <Search searchFilter={searchFilter} onSearchChange={handleSearchChange} />
-      <PlantList plants={filteredPlants} onDelete={handleDelete}/>
+      <PlantList 
+      plants={filteredPlants} 
+      onDelete={handleDelete}
+      onPriceChange={handlePriceChange}
+      />
     </main>
   );
 }
 
 export default PlantPage;
+
+      // const handlePriceChange = (id, newPrice) => {
+      //   fetch(`http://localhost:6001/plants/${id}`, {
+      //     method: "PATCH",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       price: newPrice,
+      //     }),
+      //   })
+      //     .then((response) => response.json()) 
+      //     .then((updatedPlant) => {
+      //       console.log("Updated Plant:", updatedPlant);
+      //     })
+      //     .catch((error) => console.error("Error updating plant:", error));
+      // };

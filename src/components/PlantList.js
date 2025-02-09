@@ -1,7 +1,7 @@
 import React from "react";
 import PlantCard from "./PlantCard";
 
-function PlantList({ plants, onDelete }) {
+function PlantList({ plants, onDelete, onPriceChange }) {
   return (
     <ul className="cards">
         {plants.map((plant) => (
@@ -9,6 +9,7 @@ function PlantList({ plants, onDelete }) {
           key={plant.id} 
           plant={plant}
           onDelete={onDelete}
+          onPriceChange={onPriceChange}
           />
        ))}
     </ul>
@@ -16,3 +17,6 @@ function PlantList({ plants, onDelete }) {
 }
 
 export default PlantList;
+
+// PlantPage -> PlantList -> PlantCard
+// pass onPriceChange?
